@@ -1,5 +1,6 @@
 services:
   wordpress:
+    # TODO: figure out service discovery namespacing to match AWS
     platform: linux/amd64
     depends_on:
       - database
