@@ -8,6 +8,7 @@ resource "aws_ecs_task_definition" "wordpress_task" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
   memory                   = "512"
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
 
   volume {
     name = "shared-storage"
@@ -74,6 +75,7 @@ resource "aws_ecs_task_definition" "reverse_proxy" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
   memory                   = "512"
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
 
   volume {
     name = "shared-storage"
