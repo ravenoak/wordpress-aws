@@ -43,7 +43,7 @@ resource "aws_appautoscaling_policy" "reverse_proxy_scale_down" {
 resource "aws_appautoscaling_target" "wordpress_scaling_target" {
   max_capacity       = 10
   min_capacity       = 2
-  resource_id        = "service/${aws_ecs_cluster.main.id}/${aws_ecs_service.wordpress_service.name}"
+  resource_id        = "service/${aws_ecs_cluster.main.id}/${aws_ecs_service.wordpress.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
 }

@@ -8,10 +8,11 @@ resource "aws_lb" "reverse_proxy_alb" {
 }
 
 resource "aws_lb_target_group" "reverse_proxy_tg" {
-  name     = "reverse-proxy-tg"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = aws_vpc.main.id
+  name        = "reverse-proxy-tg"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.main.id
+  target_type = "ip"
 
   health_check {
     interval            = 30

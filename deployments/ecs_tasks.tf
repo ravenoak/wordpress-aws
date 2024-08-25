@@ -2,7 +2,7 @@
 # Wordpress Task
 ##
 
-resource "aws_ecs_task_definition" "wordpress_task" {
+resource "aws_ecs_task_definition" "wordpress" {
   family                   = "wordpress"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]

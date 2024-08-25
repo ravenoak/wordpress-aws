@@ -5,25 +5,13 @@ resource "aws_efs_file_system" "shared_storage" {
   }
 }
 
-resource "aws_efs_mount_target" "reverse_proxy_1" {
-  file_system_id  = aws_efs_file_system.shared_storage.id
-  subnet_id       = aws_subnet.reverse_proxy_1.id
-  security_groups = [aws_security_group.efs_sg.id]
-}
-
-resource "aws_efs_mount_target" "wordpress_1" {
+resource "aws_efs_mount_target" "az_1" {
   file_system_id  = aws_efs_file_system.shared_storage.id
   subnet_id       = aws_subnet.wordpress_1.id
   security_groups = [aws_security_group.efs_sg.id]
 }
 
-resource "aws_efs_mount_target" "reverse_proxy_2" {
-  file_system_id  = aws_efs_file_system.shared_storage.id
-  subnet_id       = aws_subnet.reverse_proxy_2.id
-  security_groups = [aws_security_group.efs_sg.id]
-}
-
-resource "aws_efs_mount_target" "wordpress_2" {
+resource "aws_efs_mount_target" "az_2" {
   file_system_id  = aws_efs_file_system.shared_storage.id
   subnet_id       = aws_subnet.wordpress_2.id
   security_groups = [aws_security_group.efs_sg.id]

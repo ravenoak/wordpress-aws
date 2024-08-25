@@ -24,10 +24,10 @@ resource "aws_ecs_service" "reverse_proxy_service" {
   deployment_minimum_healthy_percent = 50
 }
 
-resource "aws_ecs_service" "wordpress_service" {
+resource "aws_ecs_service" "wordpress" {
   name            = "wordpress-service"
   cluster         = aws_ecs_cluster.main.id
-  task_definition = aws_ecs_task_definition.wordpress_task.arn
+  task_definition = aws_ecs_task_definition.wordpress.arn
   desired_count   = 1
   launch_type     = "FARGATE"
 
@@ -37,7 +37,8 @@ resource "aws_ecs_service" "wordpress_service" {
   }
 
   service_connect_configuration {
-    enabled = true
+    enabled   = true
+    namespace = "interview-project.local"
     service {
       port_name      = "php-fpm"
       discovery_name = "wordpress"
