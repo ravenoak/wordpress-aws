@@ -10,7 +10,7 @@ resource "aws_ecs_service" "reverse_proxy_service" {
   name            = "reverse-proxy-service"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.reverse_proxy.arn
-  desired_count   = 1
+  desired_count   = 2
   launch_type     = "FARGATE"
 
   network_configuration {
@@ -32,7 +32,7 @@ resource "aws_ecs_service" "wordpress" {
   name            = "wordpress-service"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.wordpress.arn
-  desired_count   = 1
+  desired_count   = 2
   launch_type     = "FARGATE"
 
   network_configuration {
