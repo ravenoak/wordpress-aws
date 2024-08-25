@@ -13,3 +13,25 @@ resource "aws_rds_cluster" "wordpress" {
   vpc_security_group_ids = [aws_security_group.aurora_sg.id]
   skip_final_snapshot    = true
 }
+
+resource "aws_rds_cluster_instance" "aurora_instance_1" {
+  identifier           = "aurora-instance-1"
+  cluster_identifier   = aws_rds_cluster.wordpress.id
+  instance_class       = "db.t4g.small"
+  engine               = aws_rds_cluster.wordpress.engine
+  engine_version       = aws_rds_cluster.wordpress.engine_version
+  publicly_accessible  = false
+  db_subnet_group_name = aws_db_subnet_group.wordpress.name
+  availability_zone    = "us-east-1a"
+}
+
+resource "aws_rds_cluster_instance" "aurora_instance_2" {
+  identifier           = "aurora-instance-2"
+  cluster_identifier   = aws_rds_cluster.wordpress.id
+  instance_class       = "db.t4g.small"
+  engine               = aws_rds_cluster.wordpress.engine
+  engine_version       = aws_rds_cluster.wordpress.engine_version
+  publicly_accessible  = false
+  db_subnet_group_name = aws_db_subnet_group.wordpress.name
+  availability_zone    = "us-east-1b"
+}
