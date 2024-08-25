@@ -37,7 +37,7 @@ resource "aws_ecs_service" "wordpress" {
   }
 
   service_connect_configuration {
-    enabled = true
+    enabled   = true
     namespace = "interview-project.local"
     service {
       port_name      = "php-fpm"
