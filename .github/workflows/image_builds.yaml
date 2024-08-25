@@ -2,11 +2,11 @@ name: Build Container Images
 
 on:
   push:
-    branches: [main]
-    paths: ['services/**']
+    branches: [ main ]
+    paths: [ 'services/**' ]
   pull_request:
-    branches: [main]
-    paths: ['services/**']
+    branches: [ main ]
+    paths: [ 'services/**' ]
 
 jobs:
   build-and-push:
@@ -37,7 +37,7 @@ jobs:
           context: services/reverse-proxy
 
       - name: Build and push
-        if : ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' }}
         uses: docker/build-push-action@v6
         with:
           push: true

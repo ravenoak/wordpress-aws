@@ -1,3 +1,7 @@
 .env
 .*.env
 site/
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
