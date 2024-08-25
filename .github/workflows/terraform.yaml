@@ -16,7 +16,7 @@ jobs:
         working-directory: deployments
     permissions:
       pull-requests: write
-      id-token: read
+      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
