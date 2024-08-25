@@ -2,6 +2,10 @@ resource "aws_ecs_cluster" "main" {
   name = "main"
 }
 
+resource "aws_service_discovery_http_namespace" "interview_project" {
+  name = "interview-project.local"
+}
+
 resource "aws_ecs_service" "reverse_proxy_service" {
   name            = "reverse-proxy-service"
   cluster         = aws_ecs_cluster.main.id
@@ -38,7 +42,7 @@ resource "aws_ecs_service" "wordpress" {
 
   service_connect_configuration {
     enabled   = true
-    namespace = "interview-project.local"
+    namespace = aws_service_discovery_http_namespace.interview_project.arn
     service {
       port_name      = "php-fpm"
       discovery_name = "wordpress"
