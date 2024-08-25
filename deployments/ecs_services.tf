@@ -46,6 +46,9 @@ resource "aws_ecs_service" "wordpress" {
     service {
       port_name      = "php-fpm"
       discovery_name = "wordpress"
+      client_alias {
+        port = 9000
+      }
     }
   }
 
