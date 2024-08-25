@@ -33,6 +33,12 @@ jobs:
         id: fmt
         run: terraform fmt -check
 
+      - name: AWS Login
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::816069151329:role/wordpress-terraform-oidc
+
       - name: Terraform Init
         id: init
         run: terraform init
@@ -40,12 +46,6 @@ jobs:
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
-
-      - name: AWS Login
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: us-east-1
-          role-to-assume: arn:aws:iam::123456789012:role/terraform
 
       - name: Terraform Plan
         id: plan
