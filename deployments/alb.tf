@@ -4,6 +4,7 @@ resource "aws_lb" "reverse_proxy_alb" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
   subnets            = [aws_subnet.reverse_proxy_1.id, aws_subnet.reverse_proxy_2.id]
+  depends_on         = [aws_internet_gateway.gw]
 }
 
 resource "aws_lb_target_group" "reverse_proxy_tg" {
