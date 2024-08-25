@@ -11,4 +11,5 @@ resource "aws_rds_cluster" "wordpress" {
   database_name          = local.db_name
   db_subnet_group_name   = aws_db_subnet_group.wordpress.name
   vpc_security_group_ids = [aws_security_group.aurora_sg.id]
+  skip_final_snapshot    = true
 }
