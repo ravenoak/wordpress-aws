@@ -5,7 +5,7 @@ data "aws_iam_policy_document" "ecs_task_execution_role_trust" {
     ]
 
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = ["ecs-tasks.amazonaws.com"]
     }
   }
@@ -40,17 +40,17 @@ data "aws_iam_policy_document" "gha_ecr_push_trust" {
   statement {
     principals {
       identifiers = ["arn:aws:iam::816069151329:oidc-provider/token.actions.githubusercontent.com"]
-      type = "Federated"
+      type        = "Federated"
     }
     actions = ["sts:AssumeRoleWithWebIdentity"]
     condition {
       test     = "StringEquals"
-      values = ["sts.amazonaws.com"]
+      values   = ["sts.amazonaws.com"]
       variable = "token.actions.githubusercontent.com:aud"
     }
     condition {
       test     = "StringLike"
-      values = ["repo:ravenoak/wordpress-aws:*"]
+      values   = ["repo:ravenoak/wordpress-aws:*"]
       variable = "token.actions.githubusercontent.com:sub"
     }
   }
