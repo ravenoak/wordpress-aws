@@ -59,6 +59,7 @@ resource "aws_security_group" "wordpress_sg" {
 }
 
 resource "aws_security_group" "efs_sg" {
+  name   = "efs_sg"
   vpc_id = aws_vpc.main.id
 
   ingress {
@@ -77,6 +78,7 @@ resource "aws_security_group" "efs_sg" {
 }
 
 resource "aws_security_group" "aurora_sg" {
+  name   = "aurora_sg"
   vpc_id = aws_vpc.main.id
 
   ingress {
