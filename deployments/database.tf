@@ -17,7 +17,7 @@ resource "aws_rds_cluster" "wordpress" {
 resource "aws_rds_cluster_instance" "aurora_instance_1" {
   identifier           = "aurora-instance-1"
   cluster_identifier   = aws_rds_cluster.wordpress.id
-  instance_class       = "db.t4g.small"
+  instance_class       = "db.t2.small"
   engine               = aws_rds_cluster.wordpress.engine
   engine_version       = aws_rds_cluster.wordpress.engine_version
   publicly_accessible  = false
@@ -28,7 +28,7 @@ resource "aws_rds_cluster_instance" "aurora_instance_1" {
 resource "aws_rds_cluster_instance" "aurora_instance_2" {
   identifier           = "aurora-instance-2"
   cluster_identifier   = aws_rds_cluster.wordpress.id
-  instance_class       = "db.t4g.small"
+  instance_class       = "db.t2.small"
   engine               = aws_rds_cluster.wordpress.engine
   engine_version       = aws_rds_cluster.wordpress.engine_version
   publicly_accessible  = false
