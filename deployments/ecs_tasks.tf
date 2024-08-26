@@ -57,9 +57,9 @@ resource "aws_ecs_task_definition" "wordpress" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          "awslogs-group"         = "/ecs/wordpress"
+          "awslogs-group"         = aws_cloudwatch_log_group.interview_project.name
           "awslogs-region"        = "us-east-1"
-          "awslogs-stream-prefix" = "wordpress"
+          "awslogs-stream-prefix" = aws_cloudwatch_log_stream.wordpress.name
         }
       }
     }
@@ -106,9 +106,9 @@ resource "aws_ecs_task_definition" "reverse_proxy" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          "awslogs-group"         = "/ecs/reverse-proxy"
+          "awslogs-group"         = aws_cloudwatch_log_group.interview_project.name
           "awslogs-region"        = "us-east-1"
-          "awslogs-stream-prefix" = "reverse-proxy"
+          "awslogs-stream-prefix" = aws_cloudwatch_log_stream.reverse_proxy.name
         }
       }
     }
