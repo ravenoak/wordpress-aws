@@ -22,3 +22,8 @@ variable "aws_account" {
   type        = string
   default     = "816069151329"
 }
+
+variable "allow_ssh_ip" {
+  description = "An IP address to allow SSH access from the outside"
+  type        = string
+}
