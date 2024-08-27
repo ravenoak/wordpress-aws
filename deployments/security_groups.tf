@@ -95,3 +95,16 @@ resource "aws_security_group" "aurora_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_security_group" "ssh_access" {
+  name        = "ssh_access"
+  description = "Security group for SSH access"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [var.allow_ssh_ip]
+  }
+}
