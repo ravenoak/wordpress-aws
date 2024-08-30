@@ -88,7 +88,7 @@ resource "aws_ecs_task_definition" "reverse_proxy" {
   container_definitions = jsonencode([
     {
       name      = "reverse-proxy"
-      image     = local.reverse_proxy_image
+      image     = "${aws_ecr_repository.reverse_proxy.repository_url}:latest"
       essential = true
       mountPoints = [
         {
