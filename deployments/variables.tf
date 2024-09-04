@@ -22,3 +22,9 @@ variable "aws_account" {
   type        = string
   default     = "816069151329"
 }
+
+variable "reverse_proxy_container_tag" {
+  description = "The tag for the reverse proxy container"
+  type        = string
+  default     = "latest"
+}

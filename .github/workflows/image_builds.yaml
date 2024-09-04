@@ -11,6 +11,8 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
 
     steps:
       - name: Checkout code
@@ -22,27 +24,50 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          role-to-assume: arn:aws:iam::816069151329:role/gha-ecr-push-role-oidc
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build
         uses: docker/build-push-action@v6
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: wordpress-service/reverse-proxy
+          IMAGE_TAG: ${{ github.sha }}
         with:
           push: false
-          tags: ravenoak/wp-nginx-fcgi:latest
+          tags: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
           file: services/reverse-proxy/Dockerfile
           context: services/reverse-proxy
 
       - name: Build and push
         if: ${{ github.event_name != 'pull_request' }}
         uses: docker/build-push-action@v6
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: wordpress-service/reverse-proxy
+          IMAGE_TAG: ${{ github.sha }}
         with:
           push: true
           provenance: true
           sbom: true
-          tags: ravenoak/wp-nginx-fcgi:latest
+          tags: |
+            ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+            ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
           file: services/reverse-proxy/Dockerfile
           context: services/reverse-proxy
+
+      - name: Deploy ECS Task Definition
+        uses: ./.github/workflows/terraform.yaml
+
+      # TODO: Figure out task definition vis-a-vis Terraform vs. GitHub Actions
+      # https://docs.github.com/en/actions/use-cases-and-examples/deploying/deploying-to-amazon-elastic-container-service
+      # One can define a task definition in JSON and then use GHA to render and deploy it. Is it the same data that is
+      # being used in `container_definitions` in the task definition resource in Terraform? Would there be advantage to
+      # move that into a separate JSON file and use it in both Terraform and GHA?
