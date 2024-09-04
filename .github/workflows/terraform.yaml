@@ -7,6 +7,7 @@ on:
   pull_request:
     branches: [ main ]
     paths: [ 'deployments/**' ]
+  workflow_call:
 
 jobs:
   terraform:
@@ -51,6 +52,7 @@ jobs:
         env:
           TF_VAR_db_root_password: ${{ secrets.DB_ROOT_PASSWORD }}
           TF_VAR_wordpress_db_password: ${{ secrets.WORDPRESS_DB_PASSWORD }}
+          TF_VAR_reverse_proxy_container_tag: ${{ github.sha }}
         id: plan
         run: terraform plan -no-color -input=false -out=tfplan
         continue-on-error: true

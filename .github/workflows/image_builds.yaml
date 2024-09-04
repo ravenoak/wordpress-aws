@@ -63,6 +63,9 @@ jobs:
           file: services/reverse-proxy/Dockerfile
           context: services/reverse-proxy
 
+      - name: Deploy ECS Task Definition
+        uses: ./.github/workflows/terraform.yaml
+
       # TODO: Figure out task definition vis-a-vis Terraform vs. GitHub Actions
       # https://docs.github.com/en/actions/use-cases-and-examples/deploying/deploying-to-amazon-elastic-container-service
       # One can define a task definition in JSON and then use GHA to render and deploy it. Is it the same data that is
