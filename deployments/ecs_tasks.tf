@@ -85,6 +85,14 @@ resource "aws_ecs_task_definition" "reverse_proxy" {
     }
   }
 
+  volume {
+    name = "fastcgi-cache"
+    efs_volume_configuration {
+      file_system_id     = aws_efs_file_system.fastcgi_cache.id
+      transit_encryption = "ENABLED"
+    }
+  }
+
   container_definitions = jsonencode([
     {
       name      = "reverse-proxy"
@@ -94,6 +102,10 @@ resource "aws_ecs_task_definition" "reverse_proxy" {
         {
           sourceVolume  = "shared-storage"
           containerPath = "/var/www/html"
+        },
+        {
+          sourceVolume  = "fastcgi-cache"
+          containerPath = "/var/cache/nginx"
         }
       ]
       portMappings = [
